@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.member.MemberMapper">
+
+    <insert id="insert" parameterType="com.example.demo.member.Member"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO member (user_id, password, user_name, email)
+        VALUES (#{userId}, #{password}, #{userName}, #{email})
+    </insert>
+
+    <select id="findByUserId" resultType="com.example.demo.member.Member">
+        SELECT id, user_id, password, user_name, email, created_at, updated_at
+            FROM member
+            WHERE user_id = #{userId}
+    </select>
+
+    <select id="findById" resultType="com.example.demo.member.Member">
+        SELECT id, user_id, password, user_name, email, created_at, updated_at
+            FROM member
+            WHERE id = #{id}
+    </select>
+
+    <select id="countByUserId" resultType="int">
+        SELECT count(*)
+        FROM member
+        WHERE user_id = #{userId}
+    </select>
+
+
+</mapper>

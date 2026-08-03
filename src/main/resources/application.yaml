@@ -1,0 +1,31 @@
+server:
+  port: 8080
+  servlet:
+    charset: utf-8 #서블릿의 응답과 요청 인코딩을 UTF-8로 설정
+    force: true
+
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/view #JSP 파일이 위치한 디렉토리 접두사로 설정
+      suffix: .jsp # 뷰 이름에 자동으로 추가될 파일 확장자
+  datasource:
+    url: jdbc:h2:mem:bankdb;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: '' #DB 비밀번호 빈 문자열로 설정
+  h2:
+    console:
+      enabled: true #H2 데이터 베이스 콘솔을 활성화 합니다.
+
+
+mybatis:
+  mapper-locations:
+    - classpath*:**/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true #디비의 언더스코어 네이밍(예: column_name)을 자바의 카멜케이스 네이밍(예: columnName)으로 매핑합니다
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #SQL로깅 구현체를 설정하여 콘솔에 SQL 로그를 출력합니다.
+
+logging:
+  level:
+    org.apache.ibatis: DEBUG #Mybatis 로깅 레벨을 DEBUG로 설정하여, 실행되는 SQL 쿼리와 내부 로깅 정보를 콘솔에 출력합니다.
