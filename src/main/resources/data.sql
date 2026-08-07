@@ -1,8 +1,8 @@
 -- 비밀번호는 개발용 평문. 실제로는 반드시 BCrypt 해시 저장
 INSERT INTO member (user_id, password, user_name, email) VALUES
-    ('gildong', '1234', '홍길동', 'gildong@test.com'),
-    ('dooly',   '1234', '둘리',   'dooly@test.com'),
-    ('mai',     '1234', '마이',   'mai@test.com');
+    ('gildong', '$2a$10$Wn0hZBs0w3sR0Rfbe3xiR.etcQD0ZxskJ0jN2YreyA/SDSOcoIQVy', '홍길동', 'gildong@test.com'),
+    ('dooly',   '$2a$10$Wn0hZBs0w3sR0Rfbe3xiR.etcQD0ZxskJ0jN2YreyA/SDSOcoIQVy', '둘리',   'dooly@test.com'),
+    ('mai',     '$2a$10$Wn0hZBs0w3sR0Rfbe3xiR.etcQD0ZxskJ0jN2YreyA/SDSOcoIQVy', '마이',   'mai@test.com');
 
 INSERT INTO account (account_number, password, balance, member_id) VALUES
     ('1111', '1234', 1200, 1),

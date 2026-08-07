@@ -1,7 +1,7 @@
 package com.example.demo.member;
 
 import org.apache.ibatis.annotations.Mapper;
-import com.example.demo.member.Member;
+import com.example.demo.member.model.Member;
 @Mapper
 public interface MemberMapper {
     int insert(Member member);
