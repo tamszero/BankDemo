@@ -1,8 +1,8 @@
-package com.example.demo.member;
+package com.example.demo.member.controller;
 
 
 import com.example.demo.common.exception.BuisinessException;
-import com.example.demo.member.dto.MemberJoinRequest;
+import com.example.demo.member.dto.JoinRequest;
 import com.example.demo.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +23,12 @@ public class memberController {
 
     @GetMapping("/join")
     public String joinForm(Model model){
-        model.addAttribute("memberJoinRequest", new MemberJoinRequest());
+        model.addAttribute("memberJoinRequest", new JoinRequest());
         return "member/join";
     }
 
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute MemberJoinRequest memberJoinRequest, BindingResult bindingResult){
+    public String join(@Valid @ModelAttribute JoinRequest memberJoinRequest, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             return "member/join";

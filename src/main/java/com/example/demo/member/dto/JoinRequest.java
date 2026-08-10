@@ -6,12 +6,15 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+//가입 폼
+
+
 //Data 어노테이션은 getter,setter,tostring 등을 자동생성
 //@Data
 @Getter @Setter
 @ToString(exclude = {"password", "passwordConfirm"})
 @NoArgsConstructor
-public class MemberJoinRequest {
+public class JoinRequest {
 
     @NotBlank(message = "아이디를 입력해주세요")
     @Pattern(regexp = "^[a-zA-Z0-9]{4,20}$", message = "아이디는 영문·숫자 4~20자입니다")

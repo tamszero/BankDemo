@@ -1,12 +1,10 @@
 package com.example.demo.member.service;
 
-import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.exception.ErrorCode;
-import com.example.demo.member.MemberMapper;
-import com.example.demo.member.dto.MemberJoinRequest;
+import com.example.demo.member.repository.MemberMapper;
+import com.example.demo.member.dto.JoinRequest;
 import com.example.demo.member.model.Member;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +17,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public long join(MemberJoinRequest req) throws Throwable {
+    public long join(JoinRequest req) throws Throwable {
 
         // 1. 비밀번호 확인 일치 검증
         if(!req.getPassword().equals(req.getPasswordConfirm())){
