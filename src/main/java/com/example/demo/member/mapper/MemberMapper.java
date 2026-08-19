@@ -1,4 +1,4 @@
-package com.example.demo.member.repository;
+package com.example.demo.member.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.example.demo.member.model.Member;

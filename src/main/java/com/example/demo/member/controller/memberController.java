@@ -28,7 +28,7 @@ public class memberController {
     }
 
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute JoinRequest memberJoinRequest, BindingResult bindingResult){
+    public String join(@Valid @ModelAttribute("memberJoinRequest") JoinRequest memberJoinRequest, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             return "member/join";
@@ -42,5 +42,5 @@ public class memberController {
             throw new RuntimeException(e);
         }
 
-        return "redirect:/login";    }
+        return "redirect:/members/login";    }
 }

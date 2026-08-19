@@ -3,7 +3,7 @@ package com.example.demo.member.service;
 
 import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.exception.ErrorCode;
-import com.example.demo.member.repository.MemberMapper;
+import com.example.demo.member.mapper.MemberMapper;
 import com.example.demo.member.dto.LoginMember;
 import com.example.demo.member.dto.LoginRequest;
 import com.example.demo.member.model.Member;
@@ -16,9 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LoginService {
 
-    private Member member;
-    private MemberMapper memberMapper;
-    private PasswordEncoder passwordEncoder;
+    private final MemberMapper memberMapper;
+    private final PasswordEncoder passwordEncoder;
     //아이디가 존재하는지?
 
     //아이디랑 비번이 일치하는지?
@@ -27,7 +26,7 @@ public class LoginService {
     public LoginMember login(LoginRequest req) throws BuisinessException {
 
         //아이디 받아옴
-        member = memberMapper.findByUserId(req.getUserId());
+        Member member = memberMapper.findByUserId(req.getUserId());
 
         //입력받은 비밀번호와 모델 비밀번호가 일치하는지 확인
         //아이디 존재하는지 확인은 공격 대상이 될 수 있어서 하지말래...

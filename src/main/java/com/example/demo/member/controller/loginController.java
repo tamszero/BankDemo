@@ -11,34 +11,49 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/members")
 public class loginController {
 
-    private LoginService loginService;
+    private final LoginService loginService;
+
+    @GetMapping("/login")
+    public String loginForm(@RequestParam(defaultValue = "/") String redirectURL, Model model){
+        model.addAttribute("loginRequest", new LoginRequest());
+        model.addAttribute("redirectURL", redirectURL);
+        return "member/login";
+    }
 
     @PostMapping("/login")
-    public String loginForm(@Valid @ModelAttribute LoginRequest loginRequest,
+    public String login(@Valid @ModelAttribute("loginRequest") LoginRequest loginRequest,
                             BindingResult bindingResult,
                             HttpServletRequest request,
+                            Model model,
                             @RequestParam(defaultValue = "/") String redirectURL) {
+        model.addAttribute("redirectURL", redirectURL); //로그인 실패시에도 유지
 
-        if(bindingResult.hasErrors())
+        if(bindingResult.hasErrors()){
+            System.out.println("=== 검증 실패: " + bindingResult.getAllErrors());
+            model.addAttribute("redirectURL", redirectURL);
             return "member/login";
+        }
+
 
         try{
             LoginMember loginMember = loginService.login(loginRequest);
+            System.out.println("=== 로그인 성공: " + loginMember);
             HttpSession session = request.getSession();
             session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+
         }catch (BuisinessException e){
             bindingResult.reject("loginFail", e.getMessage());
+            System.out.println("=== 로그인 실패: " + e.getMessage());
+
             return "member/login";
         }
 

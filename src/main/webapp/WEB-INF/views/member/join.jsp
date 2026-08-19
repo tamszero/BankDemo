@@ -12,6 +12,7 @@
 
 <form:form modelAttribute="memberJoinRequest" action="/members/join" method="post">
 
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <form:errors path="" cssStyle="color:red"/>
 
     <div>

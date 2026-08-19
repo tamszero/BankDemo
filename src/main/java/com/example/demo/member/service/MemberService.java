@@ -1,7 +1,7 @@
 package com.example.demo.member.service;
 
 import com.example.demo.common.exception.ErrorCode;
-import com.example.demo.member.repository.MemberMapper;
+import com.example.demo.member.mapper.MemberMapper;
 import com.example.demo.member.dto.JoinRequest;
 import com.example.demo.member.model.Member;
 import lombok.RequiredArgsConstructor;

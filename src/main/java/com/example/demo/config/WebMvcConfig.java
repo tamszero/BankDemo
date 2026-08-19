@@ -19,6 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns(
                         "/", "/members/join", "/members/login",
                         "/css/**", "/js/**", "/images/**",
+                        "/favicon.ico",
                         "/error", "/h2-console/**"
                 );
     }
