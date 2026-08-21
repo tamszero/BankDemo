@@ -15,7 +15,7 @@
     <input type="hidden" name="redirectURL" value="${redirectURL}"/>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-    <form:errors path="*" cssStyle="color:red"/>
+    <form:errors path="" cssStyle="color:red"/>
 
     <div>
         <label>아이디</label>

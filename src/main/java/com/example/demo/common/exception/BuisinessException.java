@@ -8,7 +8,7 @@ public class BuisinessException extends Throwable {
     private final ErrorCode errorCode;
 
     public BuisinessException(ErrorCode errorCode){
-        super();
+        super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
 
