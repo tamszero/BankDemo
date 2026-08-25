@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.member.mapper.MemberMapper">
+
+    <insert id="insert" parameterType="com.example.demo.account.Account"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO account (accountNumber, password, balance, memberId)
+        VALUES (#{accountNumber}, #{password}, #{balance}, #{memberId)
+    </insert>
+
+    <select id="findByMemberId" resultType="com.example.demo.account.Account">
+        SELECT id, accountNumber, password, balance, memberId, created_at, updated_at
+        FROM account
+        WHERE memberId = #{memberId}
+    </select>
+
+    <select id="findById" resultType="com.example.demo.account.Account">
+        SELECT id, accountNumber, password, balance, memberId, created_at, updated_at
+        FROM account
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByAccountNumber" resultType="com.example.demo.account.Account">
+        SELECT id, accountNumber, password, balance, memberId, created_at, updated_at
+        FROM account
+        WHERE accountNumber = #{accountNumber}
+    </select>
+
+    <select id="countByAccountNumber" resultType="int">
+        SELECT count(*)
+        FROM account
+        WHERE accountNumber = #{accountNumber}
+    </select>
+
+
+</mapper>

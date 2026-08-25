@@ -4,6 +4,8 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+//도메인
+
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
