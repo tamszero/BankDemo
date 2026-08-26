@@ -2,37 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.demo.member.mapper.MemberMapper">
+<mapper namespace="com.example.demo.account.AccountMapper">
 
     <insert id="insert" parameterType="com.example.demo.account.Account"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO account (accountNumber, password, balance, memberId)
-        VALUES (#{accountNumber}, #{password}, #{balance}, #{memberId)
+        INSERT INTO account (account_number, password, balance, member_id, created_at)
+        VALUES (#{accountNumber}, #{password}, #{balance}, #{memberId}, CURRENT_TIMESTAMP)
     </insert>
 
     <select id="findByMemberId" resultType="com.example.demo.account.Account">
-        SELECT id, accountNumber, password, balance, memberId, created_at, updated_at
+        SELECT id, account_number, password, balance, member_id, created_at, updated_at
         FROM account
-        WHERE memberId = #{memberId}
+        WHERE member_id = #{memberId}
     </select>
 
     <select id="findById" resultType="com.example.demo.account.Account">
-        SELECT id, accountNumber, password, balance, memberId, created_at, updated_at
+        SELECT id, account_number, password, balance, member_id, created_at, updated_at
         FROM account
         WHERE id = #{id}
     </select>
 
     <select id="findByAccountNumber" resultType="com.example.demo.account.Account">
-        SELECT id, accountNumber, password, balance, memberId, created_at, updated_at
+        SELECT id, account_number, password, balance, member_id, created_at, updated_at
         FROM account
-        WHERE accountNumber = #{accountNumber}
+        WHERE account_number = #{accountNumber}
     </select>
 
     <select id="countByAccountNumber" resultType="int">
         SELECT count(*)
         FROM account
-        WHERE accountNumber = #{accountNumber}
+        WHERE account_number = #{accountNumber}
     </select>
-
 
 </mapper>

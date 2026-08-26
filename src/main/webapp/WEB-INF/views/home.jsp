@@ -22,6 +22,11 @@
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <button type="submit">로그아웃</button>
     </form>
+
+    <form action="/accounts" method="get">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <button type="submit">내 계좌</button>
+        </form>
 </c:if>
 
 </body>
