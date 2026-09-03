@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @ToString(exclude = "password")
 public class WithdrawRequest {
 
-    @NotNull(message = "송금할 대상의 계좌를 입력해주세요")
     private Long accountId;
 
     @NotNull(message = "금액을 입력해주세요")

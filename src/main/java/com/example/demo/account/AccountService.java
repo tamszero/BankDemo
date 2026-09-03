@@ -22,8 +22,13 @@ public class AccountService {
     private final PasswordEncoder passwordEncoder;
     private final AccountNumberGenerator accountNumberGenerator;
 
+    //계좌 개설
     @Transactional
     public Long create(AccountCreateRequest req, Long memberId) throws BuisinessException {
+        if(!req.getPassword().equals(req.getPasswordConfirm())){
+            throw new BuisinessException(ErrorCode.PASSWORD_NOT_MATCHED);
+        }
+
         Account account = Account.builder()
                 .accountNumber(accountNumberGenerator.generate())
                 .password(passwordEncoder.encode(req.getPassword()))
@@ -33,9 +38,12 @@ public class AccountService {
         accountMapper.insert(account);
         return account.getId();
     }
-    //회원 아이디로 계좌 목록 조회 -> 리스트 반환
+    //가지고있는 계좌 리스트 조회
     @Transactional(readOnly = true)
-    public List<AccountResponse> findMyAccounts(Long memberId){
+    public List<AccountResponse> findMyAccounts(Long memberId) throws BuisinessException{
+       if (memberId == null){
+           throw new BuisinessException(ErrorCode.MEMBER_NOT_FOUND);
+       }
         return accountMapper.findByMemberId(memberId).stream()
                 .map(AccountResponse::from)
                 .toList();

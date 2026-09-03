@@ -34,4 +34,18 @@
         WHERE account_number = #{accountNumber}
     </select>
 
+    <select id="findByIdForUpdate" resultType="com.example.demo.account.Account">
+        SELECT id, account_number, password, balance, member_id, created_at, updated_at
+        FROM account
+        WHERE id = #{id}
+        FOR UPDATE
+    </select>
+
+    <update id="updateBalance">
+        UPDATE account
+        SET balance = #{balance},
+        updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
 </mapper>

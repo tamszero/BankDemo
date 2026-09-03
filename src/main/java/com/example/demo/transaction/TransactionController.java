@@ -27,7 +27,7 @@ public class TransactionController {
      * ===입금===
      */
     @GetMapping("/deposit")
-    public String depositForm(@SessionAttribute(SessionConst.LOGIN_MEMBER)LoginMember loginMember, Model model){
+    public String depositForm(@SessionAttribute(SessionConst.LOGIN_MEMBER)LoginMember loginMember, Model model) throws BuisinessException {
 
         model.addAttribute("depositRequest", new DepositRequest());
         model.addAttribute("accounts", accountService.findMyAccounts(loginMember.getId()));
@@ -38,7 +38,7 @@ public class TransactionController {
     public String deposit(@Valid @ModelAttribute DepositRequest depositRequest, BindingResult bindingResult,
                           @SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember,
                           Model model,
-                          RedirectAttributes redirectAttributes){
+                          RedirectAttributes redirectAttributes) throws BuisinessException{
 
         if(bindingResult.hasErrors()){
             model.addAttribute("accounts", accountService.findMyAccounts(loginMember.getId()));
@@ -61,9 +61,9 @@ public class TransactionController {
      */
     @GetMapping("/withdraw")
     public String withdrawForm(@SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember,
-                               Model model){
+                               Model model) throws BuisinessException{
         model.addAttribute("withdrawRequest", new WithdrawRequest());
-        model.addAttribute("account", accountService.findMyAccounts(loginMember.getId()));
+        model.addAttribute("accounts", accountService.findMyAccounts(loginMember.getId()));
         return "transaction/withdraw";
     }
 
@@ -72,7 +72,7 @@ public class TransactionController {
                            BindingResult bindingResult,
                            @SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember,
                            Model model,
-                           RedirectAttributes redirectAttributes){
+                           RedirectAttributes redirectAttributes) throws BuisinessException{
 
         if(bindingResult.hasErrors()){
             model.addAttribute("account", accountService.findMyAccounts(loginMember.getId()));

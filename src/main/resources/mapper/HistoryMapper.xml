@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.transaction.HistoryMapper">
+
+    <insert id="insert" parameterType="com.example.demo.transaction.History"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO history (tx_type, amount, w_account_id, d_account_id, w_balance, d_balance)
+        VALUES (#{txType}, #{amount}, #{wAccountId}, #{dAccountId}, #{wBalance}, #{dBalance})
+    </insert>
+
+    <select id="findByAccountId" resultType="com.example.demo.transaction.History">
+        SELECT id, tx_type, amount, w_account_id, d_account_id,
+        w_balance, d_balance, created_at
+        FROM history
+        WHERE w_account_id = #{accountId}
+        OR d_account_id = #{accountId}
+        ORDER BY created_at DESC, id DESC
+    </select>
+
+</mapper>

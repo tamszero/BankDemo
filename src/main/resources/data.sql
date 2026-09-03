@@ -5,9 +5,9 @@ INSERT INTO member (user_id, password, user_name, email) VALUES
     ('mai',     '$2a$10$Wn0hZBs0w3sR0Rfbe3xiR.etcQD0ZxskJ0jN2YreyA/SDSOcoIQVy', '마이',   'mai@test.com');
 
 INSERT INTO account (account_number, password, balance, member_id) VALUES
-    ('1111', '1234', 1200, 1),
-    ('2222', '1234', 1500, 2),
-    ('3333', '1234',    0, 3);
+    ('1111', '$2a$10$Wn0hZBs0w3sR0Rfbe3xiR.etcQD0ZxskJ0jN2YreyA/SDSOcoIQVy', 1200, 1),
+    ('2222', '$2a$10$Wn0hZBs0w3sR0Rfbe3xiR.etcQD0ZxskJ0jN2YreyA/SDSOcoIQVy', 1500, 2),
+    ('3333', '$2a$10$Wn0hZBs0w3sR0Rfbe3xiR.etcQD0ZxskJ0jN2YreyA/SDSOcoIQVy',    0, 3);
 
 -- history 합계가 위 balance와 정확히 일치합니다
 INSERT INTO history (tx_type, amount, w_account_id, d_account_id, w_balance, d_balance) VALUES

@@ -6,16 +6,20 @@ import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.exception.ErrorCode;
 import com.example.demo.transaction.dto.DepositRequest;
 import com.example.demo.transaction.dto.WithdrawRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
+@Service
+@RequiredArgsConstructor
 public class TransactionService {
 
-    private AccountMapper accountMapper;
-    private HistoryMapper historyMapper;
-    private PasswordEncoder passwordEncoder;
+    private final AccountMapper accountMapper;
+    private final HistoryMapper historyMapper;
+    private final PasswordEncoder passwordEncoder;
 
 
     /**
@@ -67,8 +71,9 @@ public class TransactionService {
 
         //2. 검증
         validateOwner(account, memberId);
-        validateBalance(account, req.getAmount());
         validateAccountPassword(account, req.getPassword());
+        validateBalance(account, req.getAmount());
+
 
         //3. 출금 금액 빼기
         BigDecimal newBalance = account.getBalance().subtract(req.getAmount());

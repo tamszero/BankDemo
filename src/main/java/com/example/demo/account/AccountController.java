@@ -1,16 +1,12 @@
 package com.example.demo.account;
 
-import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import com.example.demo.account.dto.AccountCreateRequest;
 import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.session.SessionConst;
 import com.example.demo.member.dto.LoginMember;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
-import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +20,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping
-    public String list(@SessionAttribute(SessionConst.LOGIN_MEMBER)LoginMember loginMember, Model model){
+    public String list(@SessionAttribute(SessionConst.LOGIN_MEMBER)LoginMember loginMember, Model model) throws BuisinessException {
         model.addAttribute("accounts", accountService.findMyAccounts(loginMember.getId()));
         return "account/list";
     }
@@ -44,12 +40,10 @@ public class AccountController {
     @PostMapping("/new")
     public String create(@Valid @ModelAttribute("accountCreateRequest")AccountCreateRequest req,
                          BindingResult bindingResult,
-                         HttpSession session){
+                         @SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember) {
         if(bindingResult.hasErrors()){
             return "account/new";
         }
-
-        LoginMember loginMember = (LoginMember) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         try{
             accountService.create(req, loginMember.getId());

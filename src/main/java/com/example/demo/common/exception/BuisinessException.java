@@ -3,7 +3,7 @@ package com.example.demo.common.exception;
 import lombok.Getter;
 
 @Getter
-public class BuisinessException extends Throwable {
+public class BuisinessException extends Exception {
 
     private final ErrorCode errorCode;
 

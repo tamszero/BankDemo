@@ -14,6 +14,10 @@
 <div>잔액: <fmt:formatNumber value="${account.balance}" pattern="#,###"/>원</div>
 <div>개설일: ${account.createdAtText}</div>
 
+<c:if test="${not empty message}">
+    <p style="color:green">${message}</p>
+</c:if>
+
 <a href="/accounts">목록으로</a>
 </body>
 </html>
