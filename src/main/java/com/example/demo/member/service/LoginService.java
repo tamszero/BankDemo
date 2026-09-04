@@ -18,9 +18,7 @@ public class LoginService {
 
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
-    //아이디가 존재하는지?
 
-    //아이디랑 비번이 일치하는지?
 
     @Transactional
     public LoginMember login(LoginRequest req) throws BuisinessException {
