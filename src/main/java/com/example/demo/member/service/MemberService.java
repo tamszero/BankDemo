@@ -1,5 +1,6 @@
 package com.example.demo.member.service;
 
+import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.exception.ErrorCode;
 import com.example.demo.member.mapper.MemberMapper;
 import com.example.demo.member.dto.JoinRequest;
@@ -17,16 +18,16 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public long join(JoinRequest req) throws Throwable {
+    public long join(JoinRequest req) throws BuisinessException {
 
         // 1. 비밀번호 확인 일치 검증
         if(!req.getPassword().equals(req.getPasswordConfirm())){
-            throw new Throwable(String.valueOf(ErrorCode.PASSWORD_NOT_MATCHED));
+            throw new BuisinessException(ErrorCode.PASSWORD_NOT_MATCHED);
         }
 
         // 2. 아이디 중복 검증
         if(memberMapper.countByUserId(req.getUserId()) > 0){ //dto로 받아온 아이디의 갯수가 이미 모델에서 0보다 큰 거면 존재중
-            throw new Throwable(String.valueOf(ErrorCode.DUPLICATE_USER_ID));
+            throw new BuisinessException(ErrorCode.DUPLICATE_USER_ID);
         }
 
         // 3. 비밀번호 해싱 후 저장
@@ -41,10 +42,12 @@ public class MemberService {
         return member.getId();
     }
 
+    /**
     @Transactional
     public boolean isDuplicatedUserId(String userId){
         return memberMapper.countByUserId(userId) > 0;
     }
+    */
 
 
 }
