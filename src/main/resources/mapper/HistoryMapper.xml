@@ -6,12 +6,13 @@
     <insert id="insert" parameterType="com.example.demo.transaction.History"
             useGeneratedKeys="true" keyProperty="id">
         INSERT INTO history (tx_type, amount, w_account_id, d_account_id, w_balance, d_balance)
-        VALUES (#{txType}, #{amount}, #{wAccountId}, #{dAccountId}, #{wBalance}, #{dBalance})
+        VALUES (#{txType}, #{amount}, #{withdrawAccountId}, #{depositAccountId}, #{withdrawBalance}, #{depositBalance})
     </insert>
 
     <select id="findByAccountId" resultType="com.example.demo.transaction.History">
-        SELECT id, tx_type, amount, w_account_id, d_account_id,
-        w_balance, d_balance, created_at
+        SELECT id, tx_type, amount,
+        w_account_id AS withdrawAccountId, d_account_id AS depositAccountId,
+        w_balance AS withdrawBalance, d_balance AS depositBalance, created_at
         FROM history
         WHERE w_account_id = #{accountId}
         OR d_account_id = #{accountId}

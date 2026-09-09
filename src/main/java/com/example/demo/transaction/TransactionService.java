@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -82,8 +83,8 @@ public class TransactionService {
         historyMapper.insert(History.builder()
                 .txType("WITHDRAW")
                 .amount(req.getAmount())
-                .wAccountId(account.getId())
-                .wBalance(newBalance)
+                .withdrawAccountId(account.getId())
+                .withdrawBalance(newBalance)
                 .build());
 
         accountMapper.updateBalance(account.getId(),newBalance);
@@ -114,12 +115,23 @@ public class TransactionService {
         historyMapper.insert(History.builder()
                 .txType("DEPOSIT")
                 .amount(req.getAmount())
-                .dAccountId(account.getId())
-                .dBalance(newBalance)
+                .depositAccountId(account.getId())
+                .depositBalance(newBalance)
                 .build());
 
         accountMapper.updateBalance(account.getId(), newBalance);
 
+    }
+
+    /**
+     * History 내역 조회
+     */
+    @Transactional
+    public List<History> findHistories(Long accountId, Long memberId) throws BuisinessException{
+        Account account = accountMapper.findById(accountId); //단순 조회만하기위해
+        validateOwner(account, memberId); // 남의계좌 보지 못하도록 검증
+
+        return historyMapper.findByAccountId(accountId);
     }
 
 }

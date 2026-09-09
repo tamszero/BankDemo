@@ -4,6 +4,7 @@ import com.example.demo.account.dto.AccountCreateRequest;
 import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.session.SessionConst;
 import com.example.demo.member.dto.LoginMember;
+import com.example.demo.transaction.TransactionService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final AccountService accountService;
+    private final TransactionService transactionService;
 
     @GetMapping
     public String list(@SessionAttribute(SessionConst.LOGIN_MEMBER)LoginMember loginMember, Model model) throws BuisinessException {
@@ -29,6 +31,14 @@ public class AccountController {
     public String detail(@PathVariable Long id, @SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember, Model model) throws BuisinessException {
         model.addAttribute("account", accountService.findMyAccount(id, loginMember.getId()));
         return "account/detail";
+    }
+    @GetMapping("/{id}/histories")
+    public String showHistory(@PathVariable Long id, @SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember, Model model) throws BuisinessException{
+        model.addAttribute("account", accountService.findMyAccount(id, loginMember.getId()));
+        model.addAttribute("histories", transactionService.findHistories(id,loginMember.getId()));
+
+        return "account/histories";
+
     }
 
     @GetMapping("/new")
@@ -54,4 +64,7 @@ public class AccountController {
 
         return "redirect:/accounts";
     }
+
+
+
 }
