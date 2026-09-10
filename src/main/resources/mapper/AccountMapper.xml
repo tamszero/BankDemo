@@ -48,4 +48,14 @@
         WHERE id = #{id}
     </update>
 
+
+    <select id="findTransferTargetByAccountNumber" resultType="com.example.demo.account.dto.TransferTargetResponse">
+        SELECT a.account_number, m.user_name AS owner_name
+        FROM account a
+        JOIN member m ON m.id = a.member_id
+        WHERE a.account_number = #{accountNumber}
+    </select>
+
+
+
 </mapper>

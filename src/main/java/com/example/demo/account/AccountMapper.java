@@ -1,5 +1,6 @@
 package com.example.demo.account;
 
+import com.example.demo.account.dto.TransferTargetResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,4 +18,5 @@ public interface AccountMapper {
     Account findByIdForUpdate(Long id); //락 획득용
     int updateBalance(@Param("id") Long id, @Param("balance") BigDecimal balance);
 
+    TransferTargetResponse findTransferTargetByAccountNumber(String accountNumber);
 }

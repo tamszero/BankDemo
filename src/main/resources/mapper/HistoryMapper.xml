@@ -10,13 +10,16 @@
     </insert>
 
     <select id="findByAccountId" resultType="com.example.demo.transaction.History">
-        SELECT id, tx_type, amount,
-        w_account_id AS withdrawAccountId, d_account_id AS depositAccountId,
-        w_balance AS withdrawBalance, d_balance AS depositBalance, created_at
-        FROM history
-        WHERE w_account_id = #{accountId}
-        OR d_account_id = #{accountId}
-        ORDER BY created_at DESC, id DESC
+        SELECT h.id, h.tx_type AS txType, h.amount,
+        h.w_account_id AS withdrawAccountId, h.d_account_id AS depositAccountId,
+        h.w_balance AS withdrawBalance, h.d_balance AS depositBalance, h.created_at,
+        wa.account_number AS withdrawAccountNumber,
+        da.account_number AS depositAccountNumber
+        FROM history h
+        LEFT JOIN account wa ON wa.id = h.w_account_id
+        LEFT JOIN account da ON da.id = h.d_account_id
+        WHERE h.w_account_id = #{accountId}
+        OR h.d_account_id = #{accountId}
+        ORDER BY h.created_at DESC, h.id DESC
     </select>
-
 </mapper>

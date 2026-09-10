@@ -19,5 +19,6 @@
 </c:if>
 
 <a href="/accounts">목록으로</a>
+<a href="/accounts/${account.id}/histories">거래내역</a>
 </body>
 </html>

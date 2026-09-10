@@ -6,6 +6,7 @@ package com.example.demo.common.session;
 
 public class SessionConst {
     public static final String LOGIN_MEMBER = "loginMember";
+    public static final String TRANSFER_TOKEN = "transferToken";
 
     private SessionConst() {
         //생성자를 막아서 인스턴스 생성 못하게 방어

@@ -37,6 +37,7 @@
             <tr>
                 <th>거래일시</th>
                 <th>구분</th>
+                <th>상대 계좌</th>
                 <th>금액</th>
                 <th>거래 후 잔액</th>
             </tr>
@@ -49,15 +50,19 @@
                     <%-- 이 계좌 입장에서 출금 쪽이면 "출금", 입금 쪽이면 "입금" --%>
                     <c:choose>
                         <c:when test="${h.withdrawAccountId == account.id}">
-                            <td class="type withdraw">출금</td>
+                            <td class="type withdraw">${h.txType == 'TRANSFER' ? '이체' : '출금'}</td>
+                            <td>${not empty h.depositAccountNumber ? h.depositAccountNumber : '-'}</td>
                             <td class="withdraw">-<fmt:formatNumber value="${h.amount}" pattern="#,###"/>원</td>
                             <td><fmt:formatNumber value="${h.withdrawBalance}" pattern="#,###"/>원</td>
                         </c:when>
                         <c:when test="${h.depositAccountId == account.id}">
-                            <td class="type deposit">입금</td>
+                            <td class="type deposit">${h.txType == 'TRANSFER' ? '이체' : '입금'}</td>
+                            <td>${not empty h.withdrawAccountNumber ? h.withdrawAccountNumber : '-'}</td>
                             <td class="deposit">+<fmt:formatNumber value="${h.amount}" pattern="#,###"/>원</td>
                             <td><fmt:formatNumber value="${h.depositBalance}" pattern="#,###"/>원</td>
                         </c:when>
+
+
                     </c:choose>
                 </tr>
             </c:forEach>
@@ -72,5 +77,3 @@
 </html>
  
 
-
-history_1.jsp 다운로드됨 Explorer에서 표시

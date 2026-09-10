@@ -1,10 +1,13 @@
-package com.example.demo.transaction;
+package com.example.demo.transaction.service;
 
 import com.example.demo.account.Account;
 import com.example.demo.account.AccountMapper;
 import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.exception.ErrorCode;
+import com.example.demo.transaction.History;
+import com.example.demo.transaction.HistoryMapper;
 import com.example.demo.transaction.dto.DepositRequest;
+import com.example.demo.transaction.dto.TransferRequest;
 import com.example.demo.transaction.dto.WithdrawRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -121,6 +124,59 @@ public class TransactionService {
 
         accountMapper.updateBalance(account.getId(), newBalance);
 
+    }
+
+    /**
+     *
+     * transfer : 이체하기
+     */
+    @Transactional
+    public void transfer(TransferRequest req, Long memberId) throws BuisinessException{
+
+        //amount 검증
+        validateAmount(req.getAmount());
+
+        // 1) 잠글 순서를 조회하기 위해 락 없이 먼저 id만 확인
+        Account from = accountMapper.findById(req.getFromAccountId());
+        Account to = accountMapper.findByAccountNumber(req.getToAccountNumber());
+
+        if(from == null || to == null){
+            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUNT);
+        }
+        if(from.getId().equals(to.getId())){
+            throw new BuisinessException(ErrorCode.SELF_TRANSFER_NOT_ALLOWED);
+        }
+
+        // 2) id오름차순으로 락 획득 -> 데드락을 방지
+        if(from.getId() < to.getId()){
+            from = accountMapper.findByIdForUpdate(from.getId());
+            to = accountMapper.findByIdForUpdate(to.getId());
+        }else {
+            to = accountMapper.findByIdForUpdate(to.getId());
+            from = accountMapper.findByIdForUpdate(from.getId());
+        }
+
+        // 3) 검증 -  락 획득 후
+        validateOwner(from, memberId);
+        validateAccountPassword(from, req.getPassword());
+        validateBalance(from, req.getAmount());
+
+        // 4) 잔액 계산
+        BigDecimal fromBalance = from.getBalance().subtract(req.getAmount());
+        BigDecimal toBalance = to.getBalance().add(req.getAmount());
+
+        // 5) 원장 1건 + 잔액 업데이트 2건
+        historyMapper.insert(History.builder()
+                .txType("TRANSFER")
+                .amount(req.getAmount())
+                .withdrawAccountId(from.getId())
+                .depositAccountId(to.getId())
+                .withdrawBalance(fromBalance)
+                .depositBalance(toBalance)
+                .build());
+
+        accountMapper.updateBalance(from.getId(), fromBalance);
+        accountMapper.updateBalance(to.getId(), toBalance);
     }
 
     /**

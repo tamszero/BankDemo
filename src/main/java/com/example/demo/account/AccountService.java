@@ -6,6 +6,7 @@ import com.example.demo.account.dto.AccountResponse;
 import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.exception.ErrorCode;
 import com.example.demo.common.util.AccountNumberGenerator;
+import com.example.demo.account.dto.TransferTargetResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,17 @@ public class AccountService {
         }if(!account.getMemberId().equals(memberId)){ //소유자 검증 !! -> 남의 계좌면 에러 처리
             throw new BuisinessException(ErrorCode.NOT_ACCOUNT_OWNER);
         }return AccountResponse.from(account);
+    }
+
+    // 계좌번호로 송금할 대상 account 찾기
+    @Transactional
+    public TransferTargetResponse findTransferTarget(String accountNumber) throws BuisinessException{
+        TransferTargetResponse target = accountMapper.findTransferTargetByAccountNumber(accountNumber);
+
+        if(target == null){
+            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUNT);
+        }
+        return target;
     }
 
 }

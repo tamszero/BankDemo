@@ -23,8 +23,9 @@ public enum ErrorCode {
     ACCOUNT_NUMBER_GENERATION_FAILED("A004", "계좌번호 생성에 실패했습니다", HttpStatus.INTERNAL_SERVER_ERROR),
 
     INSUFFICIENT_BALANCE("T001", "잔액이 부족합니다", HttpStatus.BAD_REQUEST),
-    INVALID_AMOUNT("T002", "거래 금액은 0보다 커야 합니다", HttpStatus.BAD_REQUEST);
-
+    INVALID_AMOUNT("T002", "거래 금액은 0보다 커야 합니다", HttpStatus.BAD_REQUEST),
+    SELF_TRANSFER_NOT_ALLOWED("T003","자기 자신에게 송금할 수 없습니다.", HttpStatus.BAD_REQUEST ),
+    DUPLICATE_REQUEST("T004", "반복된 요청입니다", HttpStatus.BAD_REQUEST);
 
     private final String code;
     private final String message;

@@ -30,6 +30,7 @@
 <a href="/accounts/new">계좌 개설</a>
 <a href="/transactions/deposit">입금하기</a>
 <a href="/transactions/withdraw">출금하기</a>
+<a href="/transactions/transfer">이체하기</a>
 
 </body>
 </html>
