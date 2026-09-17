@@ -32,7 +32,7 @@ public class TransactionController {
     private final AccountService accountService;
 
     /**
-     * ===입금===
+     * === 입금 ===
      */
     @GetMapping("/deposit")
     public String depositForm(@SessionAttribute(SessionConst.LOGIN_MEMBER)LoginMember loginMember, Model model) throws BuisinessException {
@@ -65,7 +65,7 @@ public class TransactionController {
     }
 
     /**
-     * ===출금---
+     * === 출금 ===
      */
     @GetMapping("/withdraw")
     public String withdrawForm(@SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember,
@@ -99,7 +99,10 @@ public class TransactionController {
 
     }
 
-    // 이체
+    /**
+     *
+     * == 이체 ==
+     */
     @GetMapping("/transfer")
     public String transferFrom(@SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember,
                                Model model) throws BuisinessException{
@@ -152,13 +155,13 @@ public class TransactionController {
         }
 
         // 멱등성 검증
-        String saved = (String) session.getAttribute(SessionConst.TRANSFER_TOKEN);
+        String saved = (String) session.getAttribute(SessionConst.TRANSFER_TOKEN); //세션에서 토큰 다시 가져옴
         if(saved == null || !saved.equals(token)){
             bindingResult.reject("transfer", ErrorCode.DUPLICATE_REQUEST.getMessage());
             model.addAttribute("accounts", accountService.findMyAccounts(loginMember.getId()));
             return "transaction/transfer";
         }
-        session.removeAttribute(SessionConst.TRANSFER_TOKEN);
+        session.removeAttribute(SessionConst.TRANSFER_TOKEN); //검증 후 서버 토큰 바로 지움
 
         try{
             transactionService.transfer(transferRequest, loginMember.getId());

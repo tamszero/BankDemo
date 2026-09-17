@@ -32,9 +32,13 @@ public class AccountController {
         return "account/detail";
     }
     @GetMapping("/{id}/histories")
-    public String showHistory(@PathVariable Long id, @SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember, Model model) throws BuisinessException{
+    public String showHistory(@PathVariable Long id,
+                              @SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember,
+                              Model model,
+                              @RequestParam(defaultValue = "1") int page) throws BuisinessException{
         model.addAttribute("account", accountService.findMyAccount(id, loginMember.getId()));
-        model.addAttribute("histories", transactionService.findHistories(id,loginMember.getId()));
+        model.addAttribute("histories", transactionService.findHistories(id,loginMember.getId(), page));
+        model.addAttribute("currentPage", page);
 
         return "account/histories";
 

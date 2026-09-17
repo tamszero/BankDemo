@@ -51,18 +51,30 @@
                     <c:choose>
                         <c:when test="${h.withdrawAccountId == account.id}">
                             <td class="type withdraw">${h.txType == 'TRANSFER' ? '이체' : '출금'}</td>
-                            <td>${not empty h.depositAccountNumber ? h.depositAccountNumber : '-'}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty h.depositAccountNumber}">
+                                        ${h.depositAccountHolder} (${h.depositAccountNumber})
+                                    </c:when>
+                                    <c:otherwise>-</c:otherwise>
+                                </c:choose>
+                            </td>
                             <td class="withdraw">-<fmt:formatNumber value="${h.amount}" pattern="#,###"/>원</td>
                             <td><fmt:formatNumber value="${h.withdrawBalance}" pattern="#,###"/>원</td>
                         </c:when>
                         <c:when test="${h.depositAccountId == account.id}">
                             <td class="type deposit">${h.txType == 'TRANSFER' ? '이체' : '입금'}</td>
-                            <td>${not empty h.withdrawAccountNumber ? h.withdrawAccountNumber : '-'}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${not empty h.withdrawAccountNumber}">
+                                        ${h.withdrawAccountHolder} (${h.withdrawAccountNumber})
+                                    </c:when>
+                                    <c:otherwise>-</c:otherwise>
+                                </c:choose>
+                            </td>
                             <td class="deposit">+<fmt:formatNumber value="${h.amount}" pattern="#,###"/>원</td>
                             <td><fmt:formatNumber value="${h.depositBalance}" pattern="#,###"/>원</td>
                         </c:when>
-
-
                     </c:choose>
                 </tr>
             </c:forEach>

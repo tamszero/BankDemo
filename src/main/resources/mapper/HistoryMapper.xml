@@ -9,17 +9,22 @@
         VALUES (#{txType}, #{amount}, #{withdrawAccountId}, #{depositAccountId}, #{withdrawBalance}, #{depositBalance})
     </insert>
 
-    <select id="findByAccountId" resultType="com.example.demo.transaction.History">
+    <select id="findByAccountId" resultType="com.example.demo.account.dto.HistoryView">
         SELECT h.id, h.tx_type AS txType, h.amount,
         h.w_account_id AS withdrawAccountId, h.d_account_id AS depositAccountId,
         h.w_balance AS withdrawBalance, h.d_balance AS depositBalance, h.created_at,
         wa.account_number AS withdrawAccountNumber,
-        da.account_number AS depositAccountNumber
+        da.account_number AS depositAccountNumber,
+        wm.user_name AS withdrawAccountHolder,
+        dm.user_name AS depositAccountHolder
         FROM history h
         LEFT JOIN account wa ON wa.id = h.w_account_id
         LEFT JOIN account da ON da.id = h.d_account_id
+        LEFT JOIN member wm ON wm.id = wa.member_id
+        LEFT JOIN member dm ON dm.id = da.member_id
         WHERE h.w_account_id = #{accountId}
         OR h.d_account_id = #{accountId}
         ORDER BY h.created_at DESC, h.id DESC
+        LIMIT #{size} OFFSET #{offset}
     </select>
 </mapper>

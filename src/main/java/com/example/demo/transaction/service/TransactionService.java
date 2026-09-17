@@ -2,6 +2,7 @@ package com.example.demo.transaction.service;
 
 import com.example.demo.account.Account;
 import com.example.demo.account.AccountMapper;
+import com.example.demo.account.dto.HistoryView;
 import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.exception.ErrorCode;
 import com.example.demo.transaction.History;
@@ -175,6 +176,7 @@ public class TransactionService {
                 .depositBalance(toBalance)
                 .build());
 
+
         accountMapper.updateBalance(from.getId(), fromBalance);
         accountMapper.updateBalance(to.getId(), toBalance);
     }
@@ -182,12 +184,15 @@ public class TransactionService {
     /**
      * History 내역 조회
      */
-    @Transactional
-    public List<History> findHistories(Long accountId, Long memberId) throws BuisinessException{
+    private static final int PAGE_SIZE = 20; //한 페이지에 몇 건 보여줄지
+
+    @Transactional(readOnly = true)
+    public List<HistoryView> findHistories(Long accountId, Long memberId, int page) throws BuisinessException{
         Account account = accountMapper.findById(accountId); //단순 조회만하기위해
         validateOwner(account, memberId); // 남의계좌 보지 못하도록 검증
 
-        return historyMapper.findByAccountId(accountId);
+        int offset = (page - 1) * PAGE_SIZE; // 1페이지 = offset 0, 2페이지 = offset 20 ...
+        return historyMapper.findByAccountId(accountId, offset, PAGE_SIZE);
     }
 
 }
