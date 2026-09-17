@@ -28,5 +28,11 @@
         WHERE user_id = #{userId}
     </select>
 
+    <update id="updatePassword">
+        UPDATE member
+        SET password = #{password}, updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
 
 </mapper>

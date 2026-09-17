@@ -10,6 +10,10 @@
 <body>
 <h1>로그인</h1>
 
+<c:if test="${not empty message}">
+    <p style="color:green">${message}</p>
+</c:if>
+
 <form:form modelAttribute="loginRequest" action="/members/login" method="post">
 
     <input type="hidden" name="redirectURL" value="${redirectURL}"/>
@@ -28,6 +32,7 @@
         <form:password path="password"/>
         <form:errors path="password" cssStyle="color:red"/>
     </div>
+
 
     <button type="submit">로그인</button>
 </form:form>

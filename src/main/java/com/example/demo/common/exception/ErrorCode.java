@@ -16,16 +16,22 @@ public enum ErrorCode {
     PASSWORD_NOT_MATCHED("M002", "비밀번호가 일치하지 않습니다", HttpStatus.BAD_REQUEST),
     LOGIN_FAILED("M003", "아이디 또는 비밀번호가 일치하지 않습니다", HttpStatus.UNAUTHORIZED),
     MEMBER_NOT_FOUND("M004", "존재하지 않는 회원입니다", HttpStatus.NOT_FOUND),
+    INVALID_CURRENT_PASSWORD("M005", "현재 비밀번호가 일치하지 않습니다", HttpStatus.BAD_REQUEST),
+    SAME_AS_CURRENT_PASSWORD("M006", "현재 비밀번호와 다른 비밀번호를 입력해주세요", HttpStatus.BAD_REQUEST),
 
     ACCOUNT_NOT_FOUNT("A001", "존재하지 않는 계좌입니다", HttpStatus.NOT_FOUND),
     NOT_ACCOUNT_OWNER("A002", "본인 계좌가 아닙니다", HttpStatus.FORBIDDEN),
     INVALID_ACCOUNT_PASSWORD("A003", "계좌 비밀번호가 일치하지 않습니다", HttpStatus.BAD_REQUEST),
     ACCOUNT_NUMBER_GENERATION_FAILED("A004", "계좌번호 생성에 실패했습니다", HttpStatus.INTERNAL_SERVER_ERROR),
+    BALANCE_REMAINS("A005", "잔액이 남아있어 해지할 수 없습니다", HttpStatus.BAD_REQUEST),
+    ACCOUNT_CLOSED("A006", "해지된 계좌입니다", HttpStatus.BAD_REQUEST),
 
     INSUFFICIENT_BALANCE("T001", "잔액이 부족합니다", HttpStatus.BAD_REQUEST),
     INVALID_AMOUNT("T002", "거래 금액은 0보다 커야 합니다", HttpStatus.BAD_REQUEST),
     SELF_TRANSFER_NOT_ALLOWED("T003","자기 자신에게 송금할 수 없습니다.", HttpStatus.BAD_REQUEST ),
     DUPLICATE_REQUEST("T004", "반복된 요청입니다", HttpStatus.BAD_REQUEST);
+
+
 
     private final String code;
     private final String message;

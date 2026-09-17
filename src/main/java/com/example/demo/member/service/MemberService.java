@@ -2,6 +2,8 @@ package com.example.demo.member.service;
 
 import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.exception.ErrorCode;
+import com.example.demo.member.dto.MemberResponse;
+import com.example.demo.member.dto.PasswordChangeRequest;
 import com.example.demo.member.mapper.MemberMapper;
 import com.example.demo.member.dto.JoinRequest;
 import com.example.demo.member.model.Member;
@@ -40,7 +42,47 @@ public class MemberService {
 
         memberMapper.insert(member);
         return member.getId();
+
+
     }
+
+    @Transactional
+    public void changePassword(PasswordChangeRequest req, Long memberId) throws BuisinessException {
+
+        Member member = memberMapper.findById(memberId);
+
+        if(member == null){
+            throw new BuisinessException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+
+        // 현재 비밀번호 확인
+        if(!passwordEncoder.matches(req.getCurrentPassword(), member.getPassword())){
+            throw new BuisinessException(ErrorCode.INVALID_CURRENT_PASSWORD);
+        }
+        // 새 비밀번호 일치 확인
+        if(!req.getNewPassword().equals(req.getNewPasswordConfirm())){
+            throw new BuisinessException(ErrorCode.PASSWORD_NOT_MATCHED);
+        }
+        // 현재와 같은 비밀번호 거부
+        if(passwordEncoder.matches(req.getNewPassword(), member.getPassword())){
+           throw new BuisinessException(ErrorCode.SAME_AS_CURRENT_PASSWORD);
+        }
+
+        memberMapper.updatePassword(memberId, passwordEncoder.encode(req.getNewPassword()));
+    }
+
+    @Transactional(readOnly = true)
+    public MemberResponse findById(Long id) throws BuisinessException{
+        Member member = memberMapper.findById(id);
+        if(member == null){
+            throw new BuisinessException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+
+        return MemberResponse.from(member);
+
+    }
+
+
 
     /**
     @Transactional
