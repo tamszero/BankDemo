@@ -3,9 +3,13 @@ server:
   servlet:
     charset: utf-8 #서블릿의 응답과 요청 인코딩을 UTF-8로 설정
     force: true
+  error:
+    whitelabel:
+      enabled: false
 
 spring:
   mvc:
+    throw-exception-if-no-handler-found: true
     view:
       prefix: /WEB-INF/views/  #JSP 파일이 위치한 디렉토리 접두사로 설정
       suffix: .jsp # 뷰 이름에 자동으로 추가될 파일 확장자
@@ -17,6 +21,11 @@ spring:
   h2:
     console:
       enabled: true #H2 데이터 베이스 콘솔을 활성화 합니다.
+  web:
+    resources:
+      add-mappings: false
+
+
 
 
 mybatis:

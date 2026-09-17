@@ -35,7 +35,8 @@ public class TransactionController {
      * === 입금 ===
      */
     @GetMapping("/deposit")
-    public String depositForm(@SessionAttribute(SessionConst.LOGIN_MEMBER)LoginMember loginMember, Model model) throws BuisinessException {
+    public String depositForm(@SessionAttribute(SessionConst.LOGIN_MEMBER)LoginMember loginMember,
+                              Model model) throws BuisinessException {
 
         model.addAttribute("depositRequest", new DepositRequest());
         model.addAttribute("accounts", accountService.findMyAccounts(loginMember.getId()));

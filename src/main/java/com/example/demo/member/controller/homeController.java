@@ -1,5 +1,6 @@
 package com.example.demo.member.controller;
 
+import com.example.demo.common.exception.BuisinessException;
 import com.example.demo.common.session.SessionConst;
 import com.example.demo.member.dto.LoginMember;
 import jakarta.servlet.http.HttpSession;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class homeController {
 
     @GetMapping("/")
-    public String home(HttpSession session, Model model){
+    public String home(HttpSession session, Model model) throws BuisinessException {
         LoginMember loginMember = (LoginMember) session.getAttribute(SessionConst.LOGIN_MEMBER);
         model.addAttribute("loginMember", loginMember);
         return "home";

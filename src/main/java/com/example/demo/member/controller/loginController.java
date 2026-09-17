@@ -62,7 +62,7 @@ public class loginController {
 
     //로그아웃을 Get매핑으로 해버리면 이미지 태그 하나로 강제 로그아웃이 될 수 도 있다함(CSRF)
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request) throws BuisinessException{
         HttpSession session = request.getSession(false);
         if(session != null) session.invalidate();
 
