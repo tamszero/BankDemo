@@ -35,6 +35,7 @@ public class AccountService {
                 .password(passwordEncoder.encode(req.getPassword()))
                 .balance(BigDecimal.ZERO)
                 .memberId(memberId)
+                .status("ACTIVE")
                 .build();
         accountMapper.insert(account);
         return account.getId();
@@ -56,7 +57,7 @@ public class AccountService {
         Account account = accountMapper.findById(accountId); //계좌 찾기
 
         if(account == null){ //없으면 에러 처리
-            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUNT);
+            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUND);
         }if(!account.getMemberId().equals(memberId)){ //소유자 검증 !! -> 남의 계좌면 에러 처리
             throw new BuisinessException(ErrorCode.NOT_ACCOUNT_OWNER);
         }return AccountResponse.from(account);
@@ -68,9 +69,31 @@ public class AccountService {
         TransferTargetResponse target = accountMapper.findTransferTargetByAccountNumber(accountNumber);
 
         if(target == null){
-            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUNT);
+            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUND);
         }
         return target;
+    }
+
+    // 계좌 해지 - 물리삭제(DELETE)를 하지 않고 상태만 바꾸는 소프트삭제
+    @Transactional
+    public void close(Long accountId, Long memberId, String password) throws BuisinessException{
+
+        // 먼저 락 걸기
+        Account account = accountMapper.findByIdForUpdate(accountId);
+
+        if(account == null)
+            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUND);
+        if(!account.getMemberId().equals(memberId))
+            throw new BuisinessException(ErrorCode.NOT_ACCOUNT_OWNER);
+        if(!passwordEncoder.matches(password, account.getPassword()))
+            throw new BuisinessException(ErrorCode.PASSWORD_NOT_MATCHED);
+
+        // 잔액이 남아있으면 해지 불가
+        if(account.getBalance().compareTo(BigDecimal.ZERO) != 0){
+            throw new BuisinessException(ErrorCode.BALANCE_REMAINS);
+        }
+
+        accountMapper.updateStatus(accountId, "CLOSED");
     }
 
 }

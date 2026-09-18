@@ -81,7 +81,7 @@ class TransactionServiceTest {
         assertThatThrownBy(() -> transactionService.transfer(request(1L, "9999", 100, "1234"), 1L))
                 .isInstanceOf(BuisinessException.class)
                 .extracting(e -> ((BuisinessException) e).getErrorCode())
-                .isEqualTo(ErrorCode.ACCOUNT_NOT_FOUNT);
+                .isEqualTo(ErrorCode.ACCOUNT_NOT_FOUND);
     }
 
     @Test

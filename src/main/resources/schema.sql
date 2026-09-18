@@ -19,8 +19,10 @@ create table account(
     password varchar(100) not null comment '계좌 비번 BCrypt 해시',
     balance decimal(18,2) not null default 0,
     member_id bigint not null,
+    status varchar(20) not null default 'ACTIVE' comment 'ACTIVE/CLOSED',
     created_at datetime not null default CURRENT_TIMESTAMP,
     updated_at datetime,
+    constraint uk_account_number unique (account_number),
     constraint fk_account_member foreign key(member_id) references member(id)
 
 );

@@ -7,10 +7,13 @@ import com.example.demo.member.dto.LoginMember;
 import com.example.demo.transaction.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
+import org.h2.engine.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/accounts")
@@ -41,6 +44,25 @@ public class AccountController {
         model.addAttribute("currentPage", page);
 
         return "account/histories";
+
+    }
+
+    @PostMapping("/{id}/close")
+    public String close(@PathVariable Long id,
+                        @RequestParam String password,
+                        @SessionAttribute(SessionConst.LOGIN_MEMBER) LoginMember loginMember,
+                        RedirectAttributes redirectAttributes
+                        ) {
+
+        try{
+            accountService.close(id, loginMember.getId(), password);
+        }catch (BuisinessException e){
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/accounts/" + id;
+        }
+
+        redirectAttributes.addFlashAttribute("message", "계좌가 정상적으로 해지되었습니다.");
+        return "redirect:/accounts";
 
     }
 

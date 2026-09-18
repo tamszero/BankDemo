@@ -42,7 +42,7 @@ public class TransactionService {
     // 계좌가 null이거나 memberId가 계쫘 주인이 아닐 때
     private void validateOwner(Account account, Long memberId) throws BuisinessException{
         if(account == null){
-            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUNT);
+            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUND);
         }
         if(!account.getMemberId().equals(memberId)){
             throw new BuisinessException(ErrorCode.NOT_ACCOUNT_OWNER);
@@ -142,7 +142,7 @@ public class TransactionService {
         Account to = accountMapper.findByAccountNumber(req.getToAccountNumber());
 
         if(from == null || to == null){
-            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUNT);
+            throw new BuisinessException(ErrorCode.ACCOUNT_NOT_FOUND);
         }
         if(from.getId().equals(to.getId())){
             throw new BuisinessException(ErrorCode.SELF_TRANSFER_NOT_ALLOWED);

@@ -11,9 +11,17 @@
 <body>
 <h1>내 계좌 목록</h1>
 
+<c:if test="${not empty message}">
+    <p style="color:green">${message}</p>
+</c:if>
+
 <c:choose>
     <c:when test="${empty accounts}">
         <p>보유한 계좌가 없습니다.</p>
+        <form action="/accounts/new" method="get">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <button type="submit">계좌 개설</button>
+        </form>
     </c:when>
     <c:otherwise>
         <table>
@@ -24,13 +32,28 @@
                 </tr>
             </c:forEach>
         </table>
+
+        <form action="/accounts/new" method="get">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <button type="submit">계좌 개설</button>
+        </form>
+        <form action="/transactions/deposit" method="get">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <button type="submit">입금하기</button>
+        </form>
+        <form action="/transactions/withdraw" method="get">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <button type="submit">출금하기</button>
+        </form>
+        <form action="/transactions/transfer" method="get">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <button type="submit">이체하기</button>
+        </form>
+
     </c:otherwise>
 </c:choose>
 <a href="/">홈으로</a>
-<a href="/accounts/new">계좌 개설</a>
-<a href="/transactions/deposit">입금하기</a>
-<a href="/transactions/withdraw">출금하기</a>
-<a href="/transactions/transfer">이체하기</a>
+
 
 </body>
 </html>

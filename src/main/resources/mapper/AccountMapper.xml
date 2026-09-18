@@ -11,19 +11,21 @@
     </insert>
 
     <select id="findByMemberId" resultType="com.example.demo.account.Account">
-        SELECT id, account_number, password, balance, member_id, created_at, updated_at
+        SELECT id, account_number, password, balance, member_id, status, created_at, updated_at
         FROM account
         WHERE member_id = #{memberId}
+        AND status = 'ACTIVE'
+        ORDER BY created_at
     </select>
 
     <select id="findById" resultType="com.example.demo.account.Account">
-        SELECT id, account_number, password, balance, member_id, created_at, updated_at
+        SELECT id, account_number, password, balance, member_id, status, created_at, updated_at
         FROM account
         WHERE id = #{id}
     </select>
 
     <select id="findByAccountNumber" resultType="com.example.demo.account.Account">
-        SELECT id, account_number, password, balance, member_id, created_at, updated_at
+        SELECT id, account_number, password, balance, member_id, status, created_at, updated_at
         FROM account
         WHERE account_number = #{accountNumber}
     </select>
@@ -35,7 +37,7 @@
     </select>
 
     <select id="findByIdForUpdate" resultType="com.example.demo.account.Account">
-        SELECT id, account_number, password, balance, member_id, created_at, updated_at
+        SELECT id, account_number, password, balance, member_id, status, created_at, updated_at
         FROM account
         WHERE id = #{id}
         FOR UPDATE
@@ -55,6 +57,12 @@
         JOIN member m ON m.id = a.member_id
         WHERE a.account_number = #{accountNumber}
     </select>
+
+    <update id="updateStatus">
+        UPDATE account
+        SET status = #{status}, updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
 
 
 

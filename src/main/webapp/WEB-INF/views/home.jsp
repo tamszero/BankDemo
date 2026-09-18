@@ -9,6 +9,8 @@
 <body>
 <h1>홈</h1>
 
+
+
 <c:if test="${empty loginMember}">
     <p>비로그인 상태입니다.</p>
     <a href="/members/login">로그인</a>
@@ -27,6 +29,11 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <button type="submit">내 계좌</button>
     </form>
+
+    <form action="/members/mypage" method="get">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <button type="submit">마이페이지</button>
+        </form>
 </c:if>
 
 

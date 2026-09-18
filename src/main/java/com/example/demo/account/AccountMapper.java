@@ -1,6 +1,7 @@
 package com.example.demo.account;
 
 import com.example.demo.account.dto.TransferTargetResponse;
+import lombok.extern.java.Log;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,4 +20,6 @@ public interface AccountMapper {
     int updateBalance(@Param("id") Long id, @Param("balance") BigDecimal balance);
 
     TransferTargetResponse findTransferTargetByAccountNumber(String accountNumber);
+
+    int updateStatus(@Param("id") Long accountId, @Param("status") String status);
 }

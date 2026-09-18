@@ -1,10 +1,13 @@
 package com.example.demo;
 
+import com.example.demo.account.Account;
+import com.example.demo.account.AccountMapper;
 import com.example.demo.member.model.Member;
 import com.example.demo.member.mapper.MemberMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,5 +37,13 @@ class MemberMapperTest {
 
         assertThat(memberMapper.countByUserId("newbie")).isEqualTo(1);
         assertThat(memberMapper.countByUserId("nobody")).isZero();
+    }
+
+    @MockitoSpyBean
+    AccountMapper accountMapper;
+    @Test
+    void status가_조회된다() {
+        Account account = accountMapper.findById(1L);
+        assertThat(account.getStatus()).isEqualTo("ACTIVE");   // null이면 SELECT 누락
     }
 }

@@ -20,6 +20,7 @@ public class Account {
     private  String password; //BCrypt 해시
     private BigDecimal balance;
     private Long memberId;
+    private String status; // ACTIVE/CLOSED
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

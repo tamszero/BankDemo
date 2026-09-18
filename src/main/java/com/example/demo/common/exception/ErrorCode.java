@@ -19,7 +19,7 @@ public enum ErrorCode {
     INVALID_CURRENT_PASSWORD("M005", "현재 비밀번호가 일치하지 않습니다", HttpStatus.BAD_REQUEST),
     SAME_AS_CURRENT_PASSWORD("M006", "현재 비밀번호와 다른 비밀번호를 입력해주세요", HttpStatus.BAD_REQUEST),
 
-    ACCOUNT_NOT_FOUNT("A001", "존재하지 않는 계좌입니다", HttpStatus.NOT_FOUND),
+    ACCOUNT_NOT_FOUND("A001", "존재하지 않는 계좌입니다", HttpStatus.NOT_FOUND),
     NOT_ACCOUNT_OWNER("A002", "본인 계좌가 아닙니다", HttpStatus.FORBIDDEN),
     INVALID_ACCOUNT_PASSWORD("A003", "계좌 비밀번호가 일치하지 않습니다", HttpStatus.BAD_REQUEST),
     ACCOUNT_NUMBER_GENERATION_FAILED("A004", "계좌번호 생성에 실패했습니다", HttpStatus.INTERNAL_SERVER_ERROR),
