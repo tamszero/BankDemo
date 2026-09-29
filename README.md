@@ -5,14 +5,16 @@ Spring Boot + Mybatis 기반 은행 서비스입니다.
 비관적 락을 통한 동시 거래 갱신 손실 차단 구현
 
 ## 화면
+
 <details>
 <summary>화면 보기 (클릭)</summary>
+
 | 홈 | 이체 확인 |
 |---|---|
-| <img width="750" height="1334" alt="home" src="https://github.com/user-attachments/assets/0acab297-9577-46ee-8a01-1e4374f10175" /> | <img width="750" height="1334" alt="transfer confirm" src="https://github.com/user-attachments/assets/992a886e-77d6-4597-863f-5aa3b2ef7c37" /> |
-| 거래내역 | 에러 페이지 |
-|---|---|
-| <img width="750" height="1334" alt="history" src="https://github.com/user-attachments/assets/8ddc9e64-b743-43bf-a8f2-bb995789c6be" /> | <img width="750" height="1334" alt="error" src="https://github.com/user-attachments/assets/34874c76-f37f-4064-91c9-e266762b93f6" /> |
+| <img width="380" alt="home" src="https://github.com/user-attachments/assets/0acab297-9577-46ee-8a01-1e4374f10175" /> | <img width="380" alt="transfer confirm" src="https://github.com/user-attachments/assets/992a886e-77d6-4597-863f-5aa3b2ef7c37" /> |
+| **거래내역** | **에러 페이지** |
+| <img width="380" alt="history" src="https://github.com/user-attachments/assets/8ddc9e64-b743-43bf-a8f2-bb995789c6be" /> | <img width="380" alt="error" src="https://github.com/user-attachments/assets/34874c76-f37f-4064-91c9-e266762b93f6" /> |
+
 </details>
 
 ## 주요 기능
