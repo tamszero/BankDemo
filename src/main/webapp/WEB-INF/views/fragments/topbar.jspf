@@ -1,0 +1,10 @@
+<%@ page pageEncoding="UTF-8" %>
+<%-- expects: pageTitle (String), backUrl (String, optional) set via <c:set> before include --%>
+<div class="bk-topbar">
+    <c:if test="${not empty backUrl}">
+        <a class="bk-back" href="${backUrl}" aria-label="뒤로">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+        </a>
+    </c:if>
+    <span class="bk-topbar-title">${pageTitle}</span>
+</div>

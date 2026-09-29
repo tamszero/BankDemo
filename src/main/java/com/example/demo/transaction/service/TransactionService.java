@@ -157,6 +157,13 @@ public class TransactionService {
             from = accountMapper.findByIdForUpdate(from.getId());
         }
 
+        /**
+         *실험: 데드락 유발
+        from = accountMapper.findByIdForUpdate(from.getId());
+        to   = accountMapper.findByIdForUpdate(to.getId());
+
+         */
+
         // 3) 검증 -  락 획득 후
         validateOwner(from, memberId);
         validateAccountPassword(from, req.getPassword());
@@ -193,6 +200,33 @@ public class TransactionService {
 
         int offset = (page - 1) * PAGE_SIZE; // 1페이지 = offset 0, 2페이지 = offset 20 ...
         return historyMapper.findByAccountId(accountId, offset, PAGE_SIZE);
+    }
+
+    /**
+     *
+     * 비교 실험 전용 - 락 없이 출금
+     * 갱신 손실(lost update) 재현용, 실제 서비스에는 사용X
+     *
+     */
+    @Transactional
+    public void withdrawWithoutLock(WithdrawRequest req, Long memberId) throws BuisinessException{
+        validateAmount(req.getAmount());
+
+        Account account = accountMapper.findByIdNoLock(req.getAccountId()); //락 없음
+
+        validateOwner(account, memberId);
+        validateAccountPassword(account, req.getPassword());
+        validateBalance(account, req.getAmount());
+
+        BigDecimal newBalance = account.getBalance().subtract(req.getAmount());
+
+        historyMapper.insert(History.builder()
+                .txType("WITHDRAW").amount(req.getAmount())
+                .withdrawAccountId(account.getId()).withdrawBalance(newBalance)
+                .build());
+
+
+        accountMapper.updateBalance(account.getId(), newBalance);
     }
 
 }

@@ -1,38 +1,43 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>이체 확인</title></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>이체 확인</title>
+    <%@ include file="../fragments/head.jspf" %>
+</head>
 <body>
-<h1>이체 내용을 확인해주세요</h1>
+<div class="bk-app">
+<div class="bk-main">
+<c:set var="pageTitle" value="이체 확인"/>
+<c:set var="backUrl" value="${pageContext.request.contextPath}/transactions/transfer"/>
+<%@ include file="../fragments/topbar.jspf" %>
 
-<table>
-    <tr>
-        <th>받는 분</th>
-        <td><strong>${target.ownerName}</strong></td>
-    </tr>
-    <tr>
-        <th>계좌번호</th>
-        <td>${target.accountNumber}</td>
-    </tr>
-    <tr>
-        <th>이체 금액</th>
-        <td><strong><fmt:formatNumber value="${transferRequest.amount}" pattern="#,###"/>원</strong></td>
-    </tr>
-</table>
+<div class="bk-status" style="gap:28px">
+    <h2 style="font-size:28px;line-height:1.25"><span style="color:var(--color-accent)">${target.ownerName}</span>님에게<br><fmt:formatNumber value="${transferRequest.amount}" pattern="#,###"/>원을<br>보낼까요?</h2>
 
-<p>이체 후에는 취소할 수 없습니다. 받는 분과 금액을 다시 확인해주세요.</p>
+    <div class="bk-divider2">
+        <div class="bk-kv wide"><span class="k">받는 분</span><span class="v-strong">${target.ownerName}</span></div>
+        <div class="bk-kv wide" style="border-bottom:2px solid var(--color-divider)"><span class="k">받는 계좌</span><span class="v-strong">${target.accountNumber}</span></div>
+    </div>
 
-<form action="/transactions/transfer" method="post">
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    <input type="hidden" name="fromAccountId"   value="${transferRequest.fromAccountId}">
-    <input type="hidden" name="toAccountNumber" value="${transferRequest.toAccountNumber}">
-    <input type="hidden" name="amount"          value="${transferRequest.amount}">
-    <input type="hidden" name="password"        value="${transferRequest.password}">
-    <input type="hidden" name="token"           value="${token}">
+    <form action="${pageContext.request.contextPath}/transactions/transfer" method="post" class="bk-btn-row" style="margin-top:auto">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <input type="hidden" name="fromAccountId" value="${transferRequest.fromAccountId}">
+        <input type="hidden" name="toAccountNumber" value="${transferRequest.toAccountNumber}">
+        <input type="hidden" name="amount" value="${transferRequest.amount}">
+        <input type="hidden" name="password" value="${transferRequest.password}">
+        <input type="hidden" name="token" value="${token}">
+        <button type="submit" class="bk-btn bk-btn-primary">이체하기
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button>
+    </form>
+    <a class="bk-btn bk-btn-secondary" href="${pageContext.request.contextPath}/transactions/transfer">수정하기</a>
+</div>
 
-    <button type="submit">이체하기</button>
-    <a href="/transactions/transfer">취소</a>
-</form>
+</div>
+</div>
 </body>
 </html>

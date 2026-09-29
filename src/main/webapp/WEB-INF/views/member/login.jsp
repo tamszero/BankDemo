@@ -5,38 +5,51 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>로그인</title>
+    <%@ include file="../fragments/head.jspf" %>
 </head>
 <body>
-<h1>로그인</h1>
+<div class="bk-app">
+<div class="bk-main">
+<c:set var="pageTitle" value="로그인"/>
+<c:set var="backUrl" value="${pageContext.request.contextPath}/"/>
+<%@ include file="../fragments/topbar.jspf" %>
 
 <c:if test="${not empty message}">
-    <p style="color:green">${message}</p>
+    <div class="bk-flash bk-flash-ok"><span class="bk-flash-dot"></span>${message}</div>
 </c:if>
 
-<form:form modelAttribute="loginRequest" action="/members/login" method="post">
-
+<form:form modelAttribute="loginRequest" action="${pageContext.request.contextPath}/members/login" method="post" cssClass="bk-form">
     <input type="hidden" name="redirectURL" value="${redirectURL}"/>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-    <form:errors path="" cssStyle="color:red"/>
+    <h2>아이디와 비밀번호를<br>입력해주세요</h2>
 
-    <div>
-        <label>아이디</label>
-        <form:input path="userId"/>
-        <form:errors path="userId" cssStyle="color:red"/>
+    <form:errors path="" cssClass="bk-form-err" element="div"/>
+
+    <div class="bk-field">
+        <label for="loginId">아이디</label>
+        <form:input id="loginId" path="userId" placeholder="아이디" cssClass="bk-input"/>
+        <form:errors path="userId" cssClass="bk-err" element="span"/>
     </div>
 
-    <div>
-        <label>비밀번호</label>
-        <form:password path="password"/>
-        <form:errors path="password" cssStyle="color:red"/>
+    <div class="bk-field">
+        <label for="loginPw">비밀번호</label>
+        <form:password id="loginPw" path="password" placeholder="비밀번호" cssClass="bk-input"/>
+        <form:errors path="password" cssClass="bk-err" element="span"/>
     </div>
 
+    <button type="submit" class="bk-btn bk-btn-primary" style="margin-top:4px">로그인
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button>
 
-    <button type="submit">로그인</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;border-top:2px solid var(--color-divider);padding-top:16px;margin-top:8px">
+        <span style="font-size:14px;color:var(--color-neutral-700)">계정이 없으신가요?</span>
+        <a class="bk-link-btn" style="font:800 14px var(--font-heading)" href="${pageContext.request.contextPath}/members/join">회원가입</a>
+    </div>
 </form:form>
 
-<a href="/members/join">계정이 없으신가요?</a>
+</div>
+</div>
 </body>
 </html>

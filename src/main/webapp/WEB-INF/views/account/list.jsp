@@ -1,59 +1,66 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
-
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>내 계좌</title>
+    <%@ include file="../fragments/head.jspf" %>
 </head>
 <body>
-<h1>내 계좌 목록</h1>
+<div class="bk-app">
+<div class="bk-main">
+<c:set var="pageTitle" value="내 계좌"/>
+<%@ include file="../fragments/topbar.jspf" %>
 
 <c:if test="${not empty message}">
-    <p style="color:green">${message}</p>
+    <div class="bk-flash bk-flash-ok"><span class="bk-flash-dot"></span>${message}</div>
 </c:if>
+
+<c:set var="total" value="${0}"/>
+<c:forEach var="acc" items="${accounts}"><c:set var="total" value="${total + acc.balance}"/></c:forEach>
+
+<div style="padding:24px 20px 18px;display:flex;align-items:flex-end;justify-content:space-between">
+    <div style="display:flex;flex-direction:column;gap:4px">
+        <span class="bk-balance-label">총 잔액</span>
+        <span style="font:800 30px/1.1 var(--font-heading);letter-spacing:-0.02em;font-variant-numeric:tabular-nums"><fmt:formatNumber value="${total}" pattern="#,###"/>원</span>
+    </div>
+    <span style="font-size:13px;color:var(--color-neutral-700)">${fn:length(accounts)}개 계좌</span>
+</div>
 
 <c:choose>
     <c:when test="${empty accounts}">
-        <p>보유한 계좌가 없습니다.</p>
-        <form action="/accounts/new" method="get">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button type="submit">계좌 개설</button>
-        </form>
+        <div class="bk-empty" style="border-top:2px solid var(--color-divider);border-bottom:1px solid var(--color-divider)">아직 계좌가 없습니다.</div>
     </c:when>
     <c:otherwise>
-        <table>
-            <c:forEach var="acc" items="${accounts}">
-                <tr>
-                    <td><a href="/accounts/${acc.id}">${acc.accountNumber}</a></td>
-                    <td><fmt:formatNumber value="${acc.balance}" pattern="#,###"/>원</td>
-                </tr>
+        <div class="bk-divider2">
+            <c:forEach var="acc" items="${accounts}" varStatus="st">
+                <a class="bk-acc-row" href="${pageContext.request.contextPath}/accounts/${acc.id}">
+                    <span class="bk-acc-row-top">
+                        <span style="font:600 15px var(--font-body)">입출금 <fmt:formatNumber value="${st.count}" pattern="00"/></span>
+                        <svg class="bk-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="m9 18 6-6-6-6"></path></svg>
+                    </span>
+                    <span class="bk-acc-row-bottom">
+                        <span class="num">${fn:substring(acc.accountNumber,0,3)}-${fn:substring(acc.accountNumber,3,6)}-${fn:substring(acc.accountNumber,6,12)}</span>
+                        <span class="bal"><fmt:formatNumber value="${acc.balance}" pattern="#,###"/>원</span>
+                    </span>
+                </a>
             </c:forEach>
-        </table>
-
-        <form action="/accounts/new" method="get">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button type="submit">계좌 개설</button>
-        </form>
-        <form action="/transactions/deposit" method="get">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button type="submit">입금하기</button>
-        </form>
-        <form action="/transactions/withdraw" method="get">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button type="submit">출금하기</button>
-        </form>
-        <form action="/transactions/transfer" method="get">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button type="submit">이체하기</button>
-        </form>
-
+        </div>
     </c:otherwise>
 </c:choose>
-<a href="/">홈으로</a>
 
+<div style="padding:20px">
+    <a class="bk-btn bk-btn-secondary" href="${pageContext.request.contextPath}/accounts/new">새 계좌 개설
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="square"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></a>
+</div>
 
+</div>
+<c:set var="activeTab" value="accounts"/>
+<%@ include file="../fragments/tabbar.jspf" %>
+</div>
 </body>
 </html>

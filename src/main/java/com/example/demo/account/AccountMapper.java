@@ -22,4 +22,7 @@ public interface AccountMapper {
     TransferTargetResponse findTransferTargetByAccountNumber(String accountNumber);
 
     int updateStatus(@Param("id") Long accountId, @Param("status") String status);
+
+    //테스트용 락없는 메서드
+    Account findByIdNoLock(Long id);
 }

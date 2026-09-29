@@ -64,6 +64,11 @@
         WHERE id = #{id}
     </update>
 
+    <select id="findByIdNoLock" resultType="com.example.demo.account.Account">
+        SELECT id, account_number, password, balance, member_id, status, created_at, updated_at
+        FROM account WHERE id = #{id}
+    </select>
+
 
 
 </mapper>
