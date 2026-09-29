@@ -1,7 +1,9 @@
 # Real Bank - 계좌 이체 중심 데모 뱅킹 서비스
 
 Spring Boot + Mybatis 기반 은행 서비스입니다.
+
 **원장(ledger)**기반 설계 적용, 
+
 비관적 락을 통한 동시 거래 갱신 손실 차단 구현
 
 ## 화면
@@ -24,12 +26,16 @@ Spring Boot + Mybatis 기반 은행 서비스입니다.
 
 ## 실행
 git clone ...
+
 ./gradle bootrun
 
 http://localhost:8080 - H2 인메모리 DB로 즉시 실행가능
-테스트 계정: gildong / 1234 
-            dooly / 1234
-            mai / 1234
+
+테스트 초기 계정
+            
+            계정 : gildong / 1234  계좌 : 1111 / 1234
+            계정 : dooly / 1234  계좌 : 2222 / 1234
+            계정: mai / 1234  계좌 : 3333 / 1234
 
 ## 동시성 제어 검증 
 
